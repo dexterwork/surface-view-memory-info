@@ -18,7 +18,7 @@ import stu.dex.tools.MemoryControler;
 
 public class MainActivity extends ActionBarActivity {
     LinearLayout linearLayout;
-    private final int IMGS = 10;
+    private final int IMGS = 50;
     private String[] imgs = new String[]{"country.png", "dd.png"};
 
     enum ImgType {Ran, Small, Big}
@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void init() {
-        memoryControler=new MemoryControler(this);
+        memoryControler = new MemoryControler(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
     }
 
@@ -42,15 +42,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        memoryControler.pickMemory();
+//        memoryControler.pickMemory();
 
         for (int i = 0; i < IMGS; i++) {
-            linearLayout.addView(getNewImageView(pickImage()));
+            Bitmap b = pickImage();
+            System.gc();
+            if (b == null) return;
+            linearLayout.addView(getNewImageView(b));
             linearLayout.addView(getNewTextView(i));
         }
 
-
-        memoryControler.pickMemory();
+//        memoryControler.pickMemory();
 
 
     }
@@ -81,18 +83,14 @@ public class MainActivity extends ActionBarActivity {
             //要先監看記憶體
 
 
-
             InputStream is = getAssets().open(getRanImgFileName(ImgType.Big));
-            int size=is.available();
 
-            double outof=memoryControler.getTotalMemory()+size;
-            if(outof>memoryControler.getMaxMemory())return null;
+            if (memoryControler.getMaxMemoryOfMB() - memoryControler.getTotalMemoryOfMB() < 10)
+                return null;
 
-
-
-            memoryControler.pickMemory();
 
             bitmap = BitmapFactory.decodeStream(is);
+            memoryControler.pickMemory();
             is.close();
             return bitmap;
         } catch (IOException e) {
@@ -114,8 +112,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return null;
     }
-
-
 
 
     @Override

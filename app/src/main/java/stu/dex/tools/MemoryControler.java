@@ -1,5 +1,8 @@
 package stu.dex.tools;
 
+import android.app.ActivityManager;
+import android.content.Context;
+
 import stu.dex.memorytest.MainActivity;
 
 /**
@@ -24,6 +27,7 @@ public class MemoryControler {
 
         double max = Runtime.getRuntime().maxMemory();
         MLog.i(this, "MAX MEMORY: " + (max / 1024 / 1024) + "MB.");
+
     }
 
     public double getFreeMemoryOfMB() {
@@ -48,5 +52,12 @@ public class MemoryControler {
 
     public double getMaxMemory() {
         return Runtime.getRuntime().maxMemory();
+    }
+
+    public double getFreeMemoryInfo() {
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        return mi.availMem;
     }
 }
