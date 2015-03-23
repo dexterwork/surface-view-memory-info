@@ -1,5 +1,6 @@
 package stu.dex.memorytest;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -23,32 +24,38 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-       pickMemory();
-
-        try {
-            InputStream is = getAssets().open("dd.png");
-            is.read(new byte[is.available()]);
-            BitmapFactory.decodeStream(is);
-            MLog.i(this, "size: " + is.available());
-            is.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        pickMemory();
+        pickImage();
         pickMemory();
 
 
     }
 
+    private Bitmap pickImage() {
+        Bitmap bitmap = null;
+        try {
+            MLog.i(this, "open dd.png.");
+            InputStream is = getAssets().open("dd.png");
+            int size = is.available();
+            is.read(new byte[size]);
+            MLog.i(this, "input stream size: " + size);
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+            return bitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    private void pickMemory(){
+
+    private void pickMemory() {
         double free = Runtime.getRuntime().freeMemory();
         MLog.i(this, "free memory: " + free + " bytes.");
 
 
         double total = Runtime.getRuntime().totalMemory();
-        MLog.i(this, "total memory: " + (total / 1024) + " KB.");
+        MLog.i(this, "total memory: " + (total) + " bytes.");
 
         double max = Runtime.getRuntime().maxMemory();
         MLog.i(this, "max memory: " + (max / 1024 / 1024) + "MB.");
