@@ -92,11 +92,10 @@ public class MainActivity extends ActionBarActivity {
             bitmap = BitmapFactory.decodeStream(is);
             memoryControler.pickMemory();
             is.close();
-            return bitmap;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return bitmap;
     }
 
     private String getRanImgFileName(ImgType type) {
