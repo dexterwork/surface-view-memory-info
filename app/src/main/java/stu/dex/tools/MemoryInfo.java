@@ -8,10 +8,10 @@ import stu.dex.memorytest.MainActivity;
 /**
  * Created by dexter on 2015/3/23.
  */
-public class MemoryControler {
+public class MemoryInfo {
     MainActivity activity;
 
-    public MemoryControler(MainActivity activity) {
+    public MemoryInfo(MainActivity activity) {
         this.activity = activity;
     }
 
@@ -59,5 +59,17 @@ public class MemoryControler {
         ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(mi);
         return mi.availMem;
+    }
+
+    /**
+     * 可用記憶體小於 freeMB 時返回 true
+     * @return
+     */
+    public boolean smallMemory(int freeMB) {
+        return (getMaxMemoryOfMB() - getTotalMemoryOfMB() < freeMB);
+    }
+
+    public double getFreeMemoryOfMbWithTotal(){
+        return getMaxMemoryOfMB()-getTotalMemoryOfMB();
     }
 }
