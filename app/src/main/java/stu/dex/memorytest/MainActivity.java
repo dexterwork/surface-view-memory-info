@@ -20,8 +20,11 @@ import stu.dex.tools.MLog;
 public class MainActivity extends ActionBarActivity {
     ArrayList<Bitmap> imgList;
     LinearLayout linearLayout;
-    private final int IMGS = 10;
+    private final int IMGS = 12;
     private String[] imgs = new String[]{"country.png", "dd.png"};
+
+    enum ImgType {Ran, Small, Big}
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
     private ImageView getNewImageView(Bitmap bitmap) {
         ImageView iv = new ImageView(this);
         iv.setLayoutParams(params);
-        iv.setImageBitmap(bitmap);
+        iv.setImageBitmap(bitmap);//TODO
         return iv;
     }
 
@@ -75,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
         Bitmap bitmap = null;
 
         try {
-            InputStream is = getAssets().open(getRanImgFileName());
+            InputStream is = getAssets().open(getRanImgFileName(ImgType.Big));
 //            MLog.i(this, "input stream size: " + is.available());
             bitmap = BitmapFactory.decodeStream(is);
             is.close();
@@ -86,9 +89,18 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    private String getRanImgFileName() {
-        Random ran = new Random();
-        return imgs[ran.nextInt(imgs.length)];
+    private String getRanImgFileName(ImgType type) {
+        switch (type) {
+
+            case Ran:
+                Random ran = new Random();
+                return imgs[ran.nextInt(imgs.length)];
+            case Small:
+                return "country.png";
+            case Big:
+                return "dd.png";
+        }
+        return null;
     }
 
 
