@@ -11,19 +11,19 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Random;
 
-import stu.dex.tools.MLog;
+import stu.dex.tools.MemoryControler;
 
 
 public class MainActivity extends ActionBarActivity {
-    ArrayList<Bitmap> imgList;
     LinearLayout linearLayout;
-    private final int IMGS = 12;
+    private final int IMGS = 10;
     private String[] imgs = new String[]{"country.png", "dd.png"};
 
     enum ImgType {Ran, Small, Big}
+
+    MemoryControler memoryControler;
 
 
     @Override
@@ -34,15 +34,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void init() {
+        memoryControler=new MemoryControler(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
-        imgList = new ArrayList<Bitmap>();
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        pickMemory();
+        memoryControler.pickMemory();
 
         for (int i = 0; i < IMGS; i++) {
             linearLayout.addView(getNewImageView(pickImage()));
@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        pickMemory();
+        memoryControler.pickMemory();
 
 
     }
@@ -78,8 +78,20 @@ public class MainActivity extends ActionBarActivity {
         Bitmap bitmap = null;
 
         try {
+            //要先監看記憶體
+
+
+
             InputStream is = getAssets().open(getRanImgFileName(ImgType.Big));
-//            MLog.i(this, "input stream size: " + is.available());
+            int size=is.available();
+
+            double outof=memoryControler.getTotalMemory()+size;
+            if(outof>memoryControler.getMaxMemory())return null;
+
+
+
+            memoryControler.pickMemory();
+
             bitmap = BitmapFactory.decodeStream(is);
             is.close();
             return bitmap;
@@ -96,26 +108,15 @@ public class MainActivity extends ActionBarActivity {
                 Random ran = new Random();
                 return imgs[ran.nextInt(imgs.length)];
             case Small:
-                return "country.png";
+                return imgs[0];
             case Big:
-                return "dd.png";
+                return imgs[1];
         }
         return null;
     }
 
 
-    private void pickMemory() {
-        double free = Runtime.getRuntime().freeMemory();
-        MLog.i(this, "free memory: " + free + " bytes.");
 
-
-        double total = Runtime.getRuntime().totalMemory();
-        MLog.i(this, "total memory: " + (total / 1024) + " KB.");
-        MLog.w(this, "total memory: " + (total / 1024 / 1024) + " MB.");
-
-        double max = Runtime.getRuntime().maxMemory();
-        MLog.w(this, "max memory: " + (max / 1024 / 1024) + "MB.");
-    }
 
     @Override
     public void onBackPressed() {
