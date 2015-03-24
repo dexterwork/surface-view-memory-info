@@ -53,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         for (int i = 0; i < IMGS; i++) {
             Bitmap b = pickImage();
             System.gc();
@@ -68,7 +67,6 @@ public class MainActivity extends ActionBarActivity {
         ImageView iv = new ImageView(this);
         iv.setLayoutParams(params);
         iv.setImageBitmap(bitmap);
-        System.gc();
         return iv;
     }
 
@@ -84,9 +82,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Bitmap pickImage() {
         Bitmap bitmap = null;
-
         try {
-
             InputStream is = getAssets().open(getRanImgFileName(ImgType.Big));
             //is = 圖片實體大小，沒有更多
 
@@ -124,24 +120,21 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private Bitmap resize(Bitmap bitmap) {
-
+        //將 bitmap 的寬設為與螢幕一樣，如果比螢幕大的話
         int screenWidth = screenSize.getScreenWidth();
         int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
         if (w <= screenWidth) return bitmap;
         Matrix matrix = new Matrix();
         float scale = (float) screenWidth / w;
         matrix.postScale(scale, scale);
-        return Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+        return Bitmap.createBitmap(bitmap, 0, 0, w, bitmap.getHeight(), matrix, true);
     }
 
 
     private String getRanImgFileName(ImgType type) {
         switch (type) {
-
             case Ran:
-                Random ran = new Random();
-                return imgs[ran.nextInt(imgs.length)];
+                return imgs[new Random().nextInt(imgs.length)];
             case Small:
                 return imgs[0];
             case Big:
