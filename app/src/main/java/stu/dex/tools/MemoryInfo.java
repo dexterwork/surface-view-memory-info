@@ -3,6 +3,8 @@ package stu.dex.tools;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import java.math.BigDecimal;
+
 import stu.dex.memorytest.MainActivity;
 
 /**
@@ -32,57 +34,64 @@ public class MemoryInfo {
 
     /**
      * 回傳當前可用記憶體(在app限制可用範圍內)，單位 MB
+     *
      * @return
      */
-    public double getFreeMemoryOfMB() {
-        return Runtime.getRuntime().freeMemory() / 1024 / 1024;
+    public float getFreeMemoryOfMB() {
+        return converToMB(Runtime.getRuntime().freeMemory());
     }
 
     /**
      * 回傳當前已佔用記憶體，單位 MB
+     *
      * @return
      */
-    public double getTotalMemoryOfMB() {
-        return Runtime.getRuntime().totalMemory() / 1024 / 1024;
+    public float getTotalMemoryOfMB() {
+        return converToMB(Runtime.getRuntime().totalMemory());
     }
 
     /**
      * 回傳當前可用最大記憶體，單位 MB
+     *
      * @return
      */
-    public double getMaxMemoryOfMB() {
-        return Runtime.getRuntime().maxMemory() / 1024 / 1024;
+    public float getMaxMemoryOfMB() {
+        return converToMB(Runtime.getRuntime().maxMemory());
     }
 
     /**
      * 回傳當前可用記憶體(在app限制可用範圍內)，單位 bytes
+     *
      * @return
      */
-    public double getFreeMemory() {
+    public long getFreeMemory() {
         return Runtime.getRuntime().freeMemory();
     }
 
     /**
      * 回傳當前已佔用記憶體，單位 bytes
+     *
      * @return
      */
-    public double getTotalMemory() {
+    public long getTotalMemory() {
         return Runtime.getRuntime().totalMemory();
     }
 
     /**
      * 回傳當前可用最大記憶體，單位 bytes
+     *
      * @return
      */
-    public double getMaxMemory() {
+    public long getMaxMemory() {
         return Runtime.getRuntime().maxMemory();
     }
 
     /**
      * 回傳裝置可用總記憶體，單位 MB
+     *
      * @return
      */
-    public double getFreeMemoryInfoOfMB() {
+    public long getFreeMemoryInfoOfMB() {
         ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(mi);
@@ -91,13 +100,18 @@ public class MemoryInfo {
 
     /**
      * 可用記憶體小於 freeMB 時返回 true
+     *
      * @return
      */
     public boolean smallMemory(int freeMB) {
         return (getMaxMemoryOfMB() - getTotalMemoryOfMB() < freeMB);
     }
 
-    public double getFreeMemoryOfMbWithTotal(){
-        return getMaxMemoryOfMB()-getTotalMemoryOfMB();
+    public float getFreeMemoryOfMbWithTotal() {
+        return new BigDecimal(getMaxMemoryOfMB() - getTotalMemoryOfMB()).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
+    }
+
+    public static float converToMB(long bytes) {
+        return new BigDecimal((float) bytes / 1024 / 1024).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
     }
 }

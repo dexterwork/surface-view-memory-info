@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 
+import stu.dex.tools.MLog;
 import stu.dex.tools.MemoryInfo;
 
 /**
@@ -23,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout linearLayout;
-    private final int IMGS = 50;//設定要加入圖片的張數做測試用
+    private final int IMGS = 5;//設定要加入圖片的張數做測試用
     private String[] imgs = new String[]{"country.png", "dd.png"};//[0]為小張圖，[1]為大張圖
 
     enum ImgType {Ran, Small, Big}//測試時可選擇大圖小圖作佔用記憶體容量的差別
@@ -47,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        memoryControler.pickMemory();
 
         for (int i = 0; i < IMGS; i++) {
             Bitmap b = pickImage();
@@ -57,11 +57,8 @@ public class MainActivity extends ActionBarActivity {
             linearLayout.addView(getNewTextView(i));
         }
 
-//        memoryControler.pickMemory();
-
-
-
     }
+
 
     private ImageView getNewImageView(Bitmap bitmap) {
         ImageView iv = new ImageView(this);
@@ -77,7 +74,6 @@ public class MainActivity extends ActionBarActivity {
         tv.setText("image: " + String.valueOf(index) + "\n[free memory]: " + (int) memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
         tv.setTextColor(Color.rgb(200, 200, 200));
         return tv;
-
     }
 
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -88,18 +84,39 @@ public class MainActivity extends ActionBarActivity {
         try {
 
             InputStream is = getAssets().open(getRanImgFileName(ImgType.Big));
+            //is = 圖片實體大小，沒有更多
 
             if (memoryInfo.smallMemory(10))//記憶體空間小於 10MB
                 return null;
-
-            bitmap = BitmapFactory.decodeStream(is);//吃記憶體的地方
-            memoryInfo.pickMemory();
+            MLog.i(this, "FREE:(before decodeStream) " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
+            //TODO test
+            bitmap = getBitmap1(is);
+//            bitmap = getBitmap2(is);//二個結果一樣
+            MLog.i(this, "FREE:(after decodeStream) " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
             is.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return bitmap;
     }
+
+
+    private Bitmap getBitmap2(InputStream is) {
+        byte[] b = new byte[0];
+        try {
+            b = new byte[is.available()];
+            is.read(b);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return BitmapFactory.decodeByteArray(b, 0, b.length);
+    }
+
+    private Bitmap getBitmap1(InputStream is) {
+        return BitmapFactory.decodeStream(is);//吃記憶體的地方
+    }
+
 
     private String getRanImgFileName(ImgType type) {
         switch (type) {
