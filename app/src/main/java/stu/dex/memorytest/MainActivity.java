@@ -15,7 +15,9 @@ import java.util.Random;
 
 import stu.dex.tools.MemoryInfo;
 
-
+/**
+ * 為模擬加入大圖的記憶體監看
+ */
 public class MainActivity extends ActionBarActivity {
 
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
@@ -24,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private final int IMGS = 50;//設定要加入圖片的張數做測試用
     private String[] imgs = new String[]{"country.png", "dd.png"};//[0]為小張圖，[1]為大張圖
 
-    enum ImgType {Ran, Small, Big}
+    enum ImgType {Ran, Small, Big}//測試時可選擇大圖小圖作佔用記憶體容量的差別
 
     MemoryInfo memoryInfo;
 
@@ -56,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 //        memoryControler.pickMemory();
+
 
 
     }
