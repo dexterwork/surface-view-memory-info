@@ -3,6 +3,7 @@ package stu.dex.memorytest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import java.util.Random;
 
 import stu.dex.tools.MLog;
 import stu.dex.tools.MemoryInfo;
+import stu.dex.tools.ScreenSize;
 
 /**
  * 為模擬加入大圖的記憶體監看
@@ -24,10 +26,10 @@ public class MainActivity extends ActionBarActivity {
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout linearLayout;
-    private final int IMGS = 5;//設定要加入圖片的張數做測試用
-    private String[] imgs = new String[]{"country.png", "dd.png"};//[0]為小張圖，[1]為大張圖
+    private final int IMGS = 50;//設定要加入圖片的張數做測試用
+    private String[] imgs = new String[]{"country.png", "dd.png", "nerse2.jpg", "trumpet1.jpg"};//[0]為小張圖，[1]為大張圖
 
-    enum ImgType {Ran, Small, Big}//測試時可選擇大圖小圖作佔用記憶體容量的差別
+    enum ImgType {Ran, Small, Big, Nerse}//測試時可選擇大圖小圖作佔用記憶體容量的差別
 
     MemoryInfo memoryInfo;
 
@@ -41,8 +43,11 @@ public class MainActivity extends ActionBarActivity {
 
     private void init() {
         memoryInfo = new MemoryInfo(this);
+        screenSize = new ScreenSize(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
     }
+
+    ScreenSize screenSize;
 
 
     @Override
@@ -56,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
             linearLayout.addView(getNewImageView(b));
             linearLayout.addView(getNewTextView(i));
         }
-
     }
 
 
@@ -90,8 +94,9 @@ public class MainActivity extends ActionBarActivity {
                 return null;
             MLog.i(this, "FREE:(before decodeStream) " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
             //TODO test
-            bitmap = getBitmap1(is);
-//            bitmap = getBitmap2(is);//二個結果一樣
+//            bitmap = getBitmap1(is);
+            bitmap = getBitmap2(is);//二個結果一樣
+            bitmap = resize(bitmap);
             MLog.i(this, "FREE:(after decodeStream) " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
             is.close();
         } catch (IOException e) {
@@ -110,11 +115,24 @@ public class MainActivity extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return BitmapFactory.decodeByteArray(b, 0, b.length);
+        MLog.i(this, "byte size: " + b.length);
+        return BitmapFactory.decodeByteArray(b, 0, b.length);//吃記憶體的地方
     }
 
     private Bitmap getBitmap1(InputStream is) {
         return BitmapFactory.decodeStream(is);//吃記憶體的地方
+    }
+
+    private Bitmap resize(Bitmap bitmap) {
+
+        int screenWidth = screenSize.getScreenWidth();
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        if (w <= screenWidth) return bitmap;
+        Matrix matrix = new Matrix();
+        float scale = (float) screenWidth / w;
+        matrix.postScale(scale, scale);
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
     }
 
 
@@ -128,6 +146,8 @@ public class MainActivity extends ActionBarActivity {
                 return imgs[0];
             case Big:
                 return imgs[1];
+            case Nerse:
+                return imgs[2];
         }
         return null;
     }
