@@ -20,9 +20,9 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
 
     public MSurfaceView(Context context) {
         super(context);
-        getHolder().addCallback(this);
+        holder = getHolder();
+        holder.addCallback(this);
     }
-
 
 
     public void init(int[] color, int width, int height) {
@@ -36,11 +36,13 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
     public void draw(Canvas canvas) {
         super.draw(canvas);
         MLog.i(this, "draw");
+
         if (color == null || width == 0 || height == 0)
             throw new RuntimeException("must to set color and width,height.");
 
         canvas.drawBitmap(color, 0, width, 0, 0, width, height, false, new Paint());
     }
+
 
 
     @Override
@@ -72,5 +74,6 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
     public void surfaceDestroyed(SurfaceHolder holder) {
 
     }
+
 
 }

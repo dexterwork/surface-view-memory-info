@@ -37,9 +37,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
 
+//        setContentView(R.layout.activity_main);
+        init();
+        MLog.i(this,"free:"+memoryInfo.getFreeMemoryOfMbWithTotal());
+        setContentView(getSurfaceView());
+        MLog.i(this,"free:"+memoryInfo.getFreeMemoryOfMbWithTotal());
         //TODO 使用 canvas 來試
         //canvas.drawBitmap
     }
@@ -47,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
     private void init() {
         memoryInfo = new MemoryInfo(this);
         screenSize = new ScreenSize(this);
-        linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
+//        linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
     }
 
     ScreenSize screenSize;
@@ -56,32 +59,29 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        for (int i = 0; i < IMGS; i++) {
-//            Bitmap b = pickImage();
-            MSurfaceView sur = getSurfaceView();
-
-            System.gc();
-            if (sur == null) return;
-//            linearLayout.addView(getNewImageView(b));
-            linearLayout.addView(sur);
-            linearLayout.addView(getNewTextView(i));
-        }
+        MLog.e(this,"free:"+memoryInfo.getFreeMemoryOfMbWithTotal());
+//        for (int i = 0; i < IMGS; i++) {
+////            Bitmap b = pickImage();
+//            System.gc();
+////            if (sur == null) return;
+////            linearLayout.addView(getNewImageView(b));
+//            linearLayout.addView(getSurfaceView());
+//            linearLayout.addView(getNewTextView(i));
+//            return;
+//        }
     }
 
-    int index;
+
     private MSurfaceView getSurfaceView() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.trumpet1);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.nerse2);
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
-        MLog.i(this,"w="+w);
-        MLog.i(this,"h="+h);
-        MLog.i(this,"w*h="+(w*h));
-//        if(index==0)return null;
         int[] pixel = new int[w * h];
         bitmap.getPixels(pixel, 0, w, 0, 0, w, h);
         MSurfaceView surfaceView = new MSurfaceView(this);
         surfaceView.init(pixel, w, h);
         surfaceView.setLayoutParams(params);
+        MLog.w(this,"free:"+memoryInfo.getFreeMemoryOfMbWithTotal());
         return surfaceView;
     }
 
