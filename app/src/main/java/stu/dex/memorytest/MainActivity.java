@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout linearLayout;
-    private final int IMGS = 50;//設定要加入圖片的張數做測試用
+    private final int IMGS = 10;//設定要加入圖片的張數做測試用
     private String[] imgs = new String[]{"country.png", "dd.png", "nerse2.jpg", "trumpet1.jpg"};//[0]為小張圖，[1]為大張圖
 
     enum ImgType {Ran, Small, Big, Nerse}//測試時可選擇大圖小圖作佔用記憶體容量的差別
@@ -39,6 +39,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+        //TODO 使用 canvas 來試
+        //canvas.drawBitmap
     }
 
     private void init() {
@@ -54,12 +57,32 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         for (int i = 0; i < IMGS; i++) {
-            Bitmap b = pickImage();
+//            Bitmap b = pickImage();
+            MSurfaceView sur = getSurfaceView();
+
             System.gc();
-            if (b == null) return;
-            linearLayout.addView(getNewImageView(b));
+            if (sur == null) return;
+//            linearLayout.addView(getNewImageView(b));
+            linearLayout.addView(sur);
             linearLayout.addView(getNewTextView(i));
         }
+    }
+
+    int index;
+    private MSurfaceView getSurfaceView() {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.trumpet1);
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        MLog.i(this,"w="+w);
+        MLog.i(this,"h="+h);
+        MLog.i(this,"w*h="+(w*h));
+//        if(index==0)return null;
+        int[] pixel = new int[w * h];
+        bitmap.getPixels(pixel, 0, w, 0, 0, w, h);
+        MSurfaceView surfaceView = new MSurfaceView(this);
+        surfaceView.init(pixel, w, h);
+        surfaceView.setLayoutParams(params);
+        return surfaceView;
     }
 
 
