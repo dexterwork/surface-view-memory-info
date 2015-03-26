@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import stu.dex.memory.MemoryInfo;
+import stu.dex.memorytest.MainActivity;
 import stu.dex.tools.MLog;
 import stu.dex.tools.Pub;
 
@@ -17,22 +19,24 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
     public SurfaceHolder holder;
 
     Canvas canvas;
+    MemoryInfo memoryInfo;
 
 
     public MSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         holder = getHolder();
         holder.addCallback(this);
+        memoryInfo=new MemoryInfo((MainActivity)context);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        MLog.i(this, "draw");
-
 
         canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
+        Pub.colors=null;
+        System.gc();
     }
 
 

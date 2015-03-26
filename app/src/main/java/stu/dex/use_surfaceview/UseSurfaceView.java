@@ -44,6 +44,7 @@ public class UseSurfaceView {
             fl.setLayoutParams(params);
             linearLayout.addView(fl, screenSize.getScreenWidth(), screenSize.getScreenHeight());
         }
+        MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB() + " MB");
     }
 
     public View getSurfaceView(int drawable) {
@@ -54,6 +55,9 @@ public class UseSurfaceView {
         Pub.height = bitmap.getHeight();
         Pub.colors = new int[Pub.width * Pub.height];
         bitmap.getPixels(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height);
+        bitmap.recycle();
+        bitmap = null;
+        System.gc();
 
 
         View view = activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import stu.dex.memory.MemoryInfo;
+import stu.dex.tools.MLog;
 import stu.dex.tools.ResourceForTesting;
 import stu.dex.use_surfaceview.UseSurfaceView;
 
@@ -69,7 +70,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-                useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Ran));
+                MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB()+" MB");
+                useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Trumpet));
                 linearLayout.addView(getNewTextView());
                 System.gc();
                 break;
