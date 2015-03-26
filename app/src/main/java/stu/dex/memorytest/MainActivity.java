@@ -21,12 +21,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout linearLayout;
-
-
     MemoryInfo memoryInfo;
-
     Button btn;
-
     UseSurfaceView useSurfaceView;
 
 
@@ -46,14 +42,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
-
     int index;
 
     private TextView getNewTextView() {
         TextView tv = new TextView(this);
         tv.setLayoutParams(params);
-        tv.setText("image: " + String.valueOf(index++) + "\n[free memory]: " + (int) memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
-        tv.setTextColor(Color.rgb(200, 200, 200));
+        tv.setText("image: " + String.valueOf(index++) + "\n[free memory]: " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.");
+        tv.setTextColor(Color.WHITE);
         return tv;
     }
 
@@ -69,8 +64,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-                MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB()+" MB");
-                useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Trumpet));
+                MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB() + " MB");
+                useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Big));
                 linearLayout.addView(getNewTextView());
                 System.gc();
                 break;

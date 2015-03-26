@@ -11,11 +11,10 @@ import stu.dex.tools.Pub;
  * Created by dexter on 2015/3/26.
  */
 public class MCallback implements SurfaceHolder.Callback {
-
-    SurfaceHolder holder;
+    MSurfaceView mSurfaceView;
 
     public MCallback(MSurfaceView surfaceView) {
-        this.holder = surfaceView.holder;
+        this.mSurfaceView = surfaceView;
     }
 
 
@@ -23,15 +22,14 @@ public class MCallback implements SurfaceHolder.Callback {
         @Override
         public void run() {
             MLog.w(this, "callback is run!");
-            Canvas canvas = holder.lockCanvas(null);
+            Canvas canvas = mSurfaceView.getHolder().lockCanvas(null);
             canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
-            holder.unlockCanvasAndPost(canvas);
+            mSurfaceView.getHolder().unlockCanvasAndPost(canvas);
         }
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        MLog.i(this,"surfaceCreated");
         new Thread(new MThread()).start();
     }
 
