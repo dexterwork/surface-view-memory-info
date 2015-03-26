@@ -26,7 +26,7 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
         super(context, attrs);
         holder = getHolder();
         holder.addCallback(this);
-        memoryInfo=new MemoryInfo((MainActivity)context);
+        memoryInfo = new MemoryInfo((MainActivity) context);
     }
 
 
@@ -35,7 +35,7 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
         super.draw(canvas);
 
         canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
-        Pub.colors=null;
+        Pub.colors = null;
         System.gc();
     }
 
