@@ -21,7 +21,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout linearLayout;
-//    private final int IMGS = 10;//設定要加入圖片的張數做測試用
 
 
     MemoryInfo memoryInfo;
