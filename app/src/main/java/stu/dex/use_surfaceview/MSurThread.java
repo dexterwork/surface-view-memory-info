@@ -38,7 +38,6 @@ public class MSurThread extends Thread {
         bitmap.getPixels(pixel, 0, w, 0, 0, w, h);
 
         MSurfaceView sur = (MSurfaceView) view.findViewById(R.id.view);
-        sur.init(pixel, w, h);
         return view;
     }
 }

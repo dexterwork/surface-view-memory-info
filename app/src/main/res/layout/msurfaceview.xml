@@ -5,6 +5,7 @@
 
     <stu.dex.use_surfaceview.MSurfaceView
         android:id="@+id/view"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

@@ -2,6 +2,7 @@ package stu.dex.memory;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import java.math.BigDecimal;
 
@@ -124,5 +125,9 @@ public class MemoryInfo {
      */
     public boolean isMemoryNotEnouph() {
         return getFreeMemoryOfMbWithTotal() < Setting.MIX_MEMORY_MB;
+    }
+
+    public boolean isMemoryNotEnouph(Bitmap bitmap) {
+        return getFreeMemoryOfMbWithTotal() <= bitmap.getByteCount();
     }
 }

@@ -8,39 +8,21 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import stu.dex.tools.MLog;
+import stu.dex.tools.Pub;
 
 /**
  * Created by dexter on 2015/3/24.
  */
 public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    SurfaceHolder holder;
+    public SurfaceHolder holder;
+
     Canvas canvas;
 
-    private int[] color;
-    private int width, height;
-
-    public MSurfaceView(Context context) {
-        super(context);
-        holder = getHolder();
-        holder.addCallback(this);
-    }
 
     public MSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         holder = getHolder();
         holder.addCallback(this);
-    }
-
-    public MSurfaceView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        holder = getHolder();
-        holder.addCallback(this);
-    }
-
-    public void init(int[] color, int width, int height) {
-        this.color = color;
-        this.width = width;
-        this.height = height;
     }
 
 
@@ -49,12 +31,9 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
         super.draw(canvas);
         MLog.i(this, "draw");
 
-        if (color == null || width == 0 || height == 0)
-            throw new RuntimeException("must to set color and width,height.");
 
-        canvas.drawBitmap(color, 0, width, 0, 0, width, height, false, new Paint());
+        canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
     }
-
 
 
     @Override
@@ -76,16 +55,13 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
         }
     }
 
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        MLog.i(this, "surfaceChanged");
+
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
     }
-
-
 }

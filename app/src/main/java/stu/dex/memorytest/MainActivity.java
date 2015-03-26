@@ -46,7 +46,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
-// TODO http://android.yaohuiji.com/archives/tag/surfaceview
 
     int index;
 
