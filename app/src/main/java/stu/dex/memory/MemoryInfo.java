@@ -1,4 +1,4 @@
-package stu.dex.tools;
+package stu.dex.memory;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Context;
 import java.math.BigDecimal;
 
 import stu.dex.memorytest.MainActivity;
+import stu.dex.settings.Setting;
+import stu.dex.tools.MLog;
 
 /**
  * Created by dexter on 2015/3/23.
@@ -113,5 +115,14 @@ public class MemoryInfo {
 
     public static float converToMB(long bytes) {
         return new BigDecimal((float) bytes / 1024 / 1024).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
+    }
+
+    /**
+     * 如果䛏憶體不足則傳回 true
+     *
+     * @return
+     */
+    public boolean isMemoryNotEnouph() {
+        return getFreeMemoryOfMbWithTotal() < Setting.MIX_MEMORY_MB;
     }
 }

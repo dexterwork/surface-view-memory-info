@@ -5,6 +5,13 @@
     android:background="@color/black"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btn"
+        android:text="Add picture"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 
     <ScrollView
@@ -12,6 +19,7 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn"
         android:layout_centerHorizontal="true">
 
         <LinearLayout

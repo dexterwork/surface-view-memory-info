@@ -1,8 +1,9 @@
-package stu.dex.memorytest;
+package stu.dex.use_surfaceview;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -24,6 +25,17 @@ public class MSurfaceView extends SurfaceView implements SurfaceHolder.Callback 
         holder.addCallback(this);
     }
 
+    public MSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        holder = getHolder();
+        holder.addCallback(this);
+    }
+
+    public MSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        holder = getHolder();
+        holder.addCallback(this);
+    }
 
     public void init(int[] color, int width, int height) {
         this.color = color;
