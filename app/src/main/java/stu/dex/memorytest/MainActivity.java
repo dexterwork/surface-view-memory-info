@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    int index;
+    public int index;
 
     private TextView getNewTextView(String msg) {
         TextView tv = new TextView(this);
