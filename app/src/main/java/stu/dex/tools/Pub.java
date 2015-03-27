@@ -9,4 +9,6 @@ public class Pub {
     public static int width;
     public static int height;
 
+    public static ScreenSize screenSize;
+
 }

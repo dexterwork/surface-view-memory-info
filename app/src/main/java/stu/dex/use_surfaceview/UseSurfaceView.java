@@ -3,15 +3,14 @@ package stu.dex.use_surfaceview;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import stu.dex.memory.MemoryInfo;
 import stu.dex.memorytest.MainActivity;
 import stu.dex.memorytest.R;
+import stu.dex.tools.BitmapTool;
 import stu.dex.tools.Pub;
-import stu.dex.tools.ScreenSize;
 
 /**
  * Created by dexter on 2015/3/26.
@@ -21,10 +20,12 @@ public class UseSurfaceView {
     LinearLayout linearLayout;
     MemoryInfo memoryInfo;
 
+
     public UseSurfaceView(MainActivity activity, LinearLayout linearLayout) {
         this.activity = activity;
         this.linearLayout = linearLayout;
         memoryInfo = new MemoryInfo(activity);
+
     }
 
 
@@ -32,9 +33,7 @@ public class UseSurfaceView {
         View fl = getSurfaceView(drawable);
         if (fl != null) {
             fl.setVisibility(View.VISIBLE);
-            fl.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            ScreenSize screenSize = new ScreenSize(activity);
-            linearLayout.addView(fl, screenSize.getScreenWidth(), screenSize.getScreenHeight());
+            linearLayout.addView(fl, Pub.screenSize.getScreenWidth(), Pub.screenSize.getScreenHeight());
             return true;
         }
         return false;
@@ -47,6 +46,10 @@ public class UseSurfaceView {
         }
         System.gc();
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), drawable);
+        BitmapTool bitmapTool = new BitmapTool(activity);
+        bitmap = bitmapTool.reScaleAsScreenWidth(bitmap);
+
+
         //TODO 檢測剩下可用記憶體
         Pub.width = bitmap.getWidth();
         Pub.height = bitmap.getHeight();

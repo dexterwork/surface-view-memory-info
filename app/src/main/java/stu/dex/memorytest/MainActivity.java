@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import stu.dex.memory.MemoryInfo;
 import stu.dex.tools.MLog;
+import stu.dex.tools.Pub;
 import stu.dex.tools.ResourceForTesting;
+import stu.dex.tools.ScreenSize;
 import stu.dex.use_surfaceview.UseSurfaceView;
 
 /**
@@ -34,6 +36,7 @@ public class MainActivity extends ActionBarActivity {
         memoryInfo = new MemoryInfo(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
         useSurfaceView = new UseSurfaceView(this, linearLayout);
+        Pub.screenSize=new ScreenSize(this);
     }
 
 
