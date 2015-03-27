@@ -47,7 +47,7 @@ public class UseSurfaceView {
         System.gc();
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), drawable);
         BitmapTool bitmapTool = new BitmapTool(activity);
-        bitmap = bitmapTool.reScaleAsScreenWidth(bitmap);
+        bitmap = bitmapTool.reScaleAsScreenWidth(bitmap);//if the bitmap width bigger than screen width to set scale same screen width.
 
 
         //TODO 檢測剩下可用記憶體
