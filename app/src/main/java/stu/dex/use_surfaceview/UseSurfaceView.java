@@ -5,11 +5,11 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import stu.dex.memory.MemoryInfo;
 import stu.dex.memorytest.MainActivity;
 import stu.dex.memorytest.R;
-import stu.dex.tools.MLog;
 import stu.dex.tools.Pub;
 import stu.dex.tools.ScreenSize;
 
@@ -31,37 +31,29 @@ public class UseSurfaceView {
 
 
     public void addSurfaceView(int drawable) {
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("img", drawable);
-//        Message message = new Message();
-//        message.setData(bundle);
-//        handler.sendMessage(message);
-
         View fl = getSurfaceView(drawable);
         if (fl != null) {
             fl.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            fl.setLayoutParams(params);
+            fl.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             linearLayout.addView(fl, screenSize.getScreenWidth(), screenSize.getScreenHeight());
         }
-        MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB() + " MB");
     }
 
     public View getSurfaceView(int drawable) {
-        if (drawable != 0) MLog.i(this, "drawable!!");
-
+        if (drawable == 0){
+            Toast.makeText(activity,"未獲取圖片資源",Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        System.gc();//先釋放空間
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), drawable);
+        //TODO 檢測剩下可用記憶體
         Pub.width = bitmap.getWidth();
         Pub.height = bitmap.getHeight();
-        Pub.colors = new int[Pub.width * Pub.height];
+        Pub.colors = memoryInfo.checkMemoryForNewIntArray(Pub.width, Pub.height, "記憶體不足");
+        if (Pub.colors == null) return null;
         bitmap.getPixels(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height);
         bitmap.recycle();
-        bitmap = null;
         System.gc();
-
-
-        View view = activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
-//        MSurfaceView sur =(MSurfaceView) view.findViewById(R.id.view);
-        return view;
+        return activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
     }
 }

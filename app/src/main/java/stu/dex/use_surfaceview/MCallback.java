@@ -23,8 +23,13 @@ public class MCallback implements SurfaceHolder.Callback {
         public void run() {
             MLog.w(this, "callback is run!");
             Canvas canvas = mSurfaceView.getHolder().lockCanvas(null);
-            canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
-            mSurfaceView.getHolder().unlockCanvasAndPost(canvas);
+            try {
+                synchronized (mSurfaceView.getHolder()) {
+                    canvas.drawBitmap(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height, false, new Paint());
+                }
+            } finally {
+                mSurfaceView.getHolder().unlockCanvasAndPost(canvas);
+            }
         }
     }
 

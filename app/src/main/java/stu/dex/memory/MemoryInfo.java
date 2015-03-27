@@ -3,6 +3,8 @@ package stu.dex.memory;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 
@@ -129,5 +131,23 @@ public class MemoryInfo {
 
     public boolean isMemoryNotEnouph(Bitmap bitmap) {
         return getFreeMemoryOfMbWithTotal() <= bitmap.getByteCount();
+    }
+
+    /**
+     * 檢測要 new int[] 時記憶體是否不足，以防 crash.
+     *
+     * @param width
+     * @param height
+     * @param outOfMemoryErrorMessage 若有字串，在記憶體不足時將會顯示其字串訊息
+     * @return
+     */
+    public int[] checkMemoryForNewIntArray(int width, int height, String outOfMemoryErrorMessage) {
+        try {
+            return new int[width * height];
+        } catch (OutOfMemoryError e) {
+            if (!TextUtils.isEmpty(outOfMemoryErrorMessage))
+                Toast.makeText(activity, outOfMemoryErrorMessage, Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 }

@@ -9,6 +9,7 @@ import android.view.SurfaceView;
  */
 public class MSurfaceView extends SurfaceView {
 
+    //從xml代入的要使用這個建構子
     public MSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(new MCallback(this));
