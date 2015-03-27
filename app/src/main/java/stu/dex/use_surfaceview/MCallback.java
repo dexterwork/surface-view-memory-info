@@ -29,6 +29,8 @@ public class MCallback implements SurfaceHolder.Callback {
                 }
             } finally {
                 mSurfaceView.getHolder().unlockCanvasAndPost(canvas);
+                Pub.colors = null;
+                System.gc();
             }
         }
     }

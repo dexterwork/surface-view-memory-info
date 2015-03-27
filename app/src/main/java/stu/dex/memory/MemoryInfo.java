@@ -157,6 +157,7 @@ public class MemoryInfo {
      */
     public int[] checkMemoryForNewIntArray(int width, int height, String outOfMemoryErrorMessage) {
         try {
+            System.gc();
             return new int[width * height];
         } catch (OutOfMemoryError e) {
             if (!TextUtils.isEmpty(outOfMemoryErrorMessage))

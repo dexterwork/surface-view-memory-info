@@ -50,7 +50,7 @@ public class UseSurfaceView {
         //TODO 檢測剩下可用記憶體
         Pub.width = bitmap.getWidth();
         Pub.height = bitmap.getHeight();
-        Pub.colors = memoryInfo.checkMemoryForNewIntArray(Pub.width, Pub.height, "記憶體不足");
+        Pub.colors = memoryInfo.checkMemoryForNewIntArray(Pub.width, Pub.height, "[記憶體不足] 已使用:" + memoryInfo.getTotalMemoryOfMB() + " MB.");
         if (Pub.colors == null) return null;
         bitmap.getPixels(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height);
         bitmap.recycle();

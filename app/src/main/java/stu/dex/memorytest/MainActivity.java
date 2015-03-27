@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 String msg = null;
                 System.gc();
                 //插圖
-                if (useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Big))) {
+                if (useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Ran))) {
                     msg = "image index: " + String.valueOf(++index) + "\n[free memory]: " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.";
                 } else {
                     msg = "[NOT IMAGE!!] index: " + String.valueOf(++index);
