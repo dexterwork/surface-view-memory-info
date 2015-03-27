@@ -10,6 +10,7 @@
         android:text="Add Picture"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
+        android:onClick="onClick"
         android:layout_height="wrap_content" />
 
 

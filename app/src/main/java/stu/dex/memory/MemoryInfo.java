@@ -27,13 +27,13 @@ public class MemoryInfo {
      */
     public void pickMemory() {
         double free = Runtime.getRuntime().freeMemory();
-        MLog.i(this, "FREE MEMORY: " + (free / 1024 / 1024) + " MB.");
+        MLog.i(this, "FREE MEMORY: " + converToMB(free) + " MB.");
 
         double total = Runtime.getRuntime().totalMemory();
-        MLog.i(this, "TOTAL MEMORY: " + (total / 1024 / 1024) + " MB.");
+        MLog.i(this, "TOTAL MEMORY: " + converToMB(total) + " MB.");
 
         double max = Runtime.getRuntime().maxMemory();
-        MLog.i(this, "MAX MEMORY: " + (max / 1024 / 1024) + "MB.");
+        MLog.i(this, "MAX MEMORY: " + converToMB(max) + "MB.");
 
     }
 
@@ -112,11 +112,20 @@ public class MemoryInfo {
         return (getMaxMemoryOfMB() - getTotalMemoryOfMB() < freeMB);
     }
 
+    /**
+     * 計算最大可用記憶體減去總共已使用記憶體之剩餘可使用記憶體
+     * @return
+     */
     public float getFreeMemoryOfMbWithTotal() {
         return new BigDecimal(getMaxMemoryOfMB() - getTotalMemoryOfMB()).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
     }
 
-    public static float converToMB(long bytes) {
+    /**
+     * bytes to MB.
+     * @param bytes
+     * @return
+     */
+    public static float converToMB(double bytes) {
         return new BigDecimal((float) bytes / 1024 / 1024).setScale(2, BigDecimal.ROUND_DOWN).floatValue();
     }
 
@@ -129,6 +138,11 @@ public class MemoryInfo {
         return getFreeMemoryOfMbWithTotal() < Setting.MIX_MEMORY_MB;
     }
 
+    /**
+     * 如果䛏憶體不足則傳回 true
+     *
+     * @return
+     */
     public boolean isMemoryNotEnouph(Bitmap bitmap) {
         return getFreeMemoryOfMbWithTotal() <= bitmap.getByteCount();
     }

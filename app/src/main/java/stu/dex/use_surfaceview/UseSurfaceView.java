@@ -20,28 +20,29 @@ public class UseSurfaceView {
     MainActivity activity;
     LinearLayout linearLayout;
     MemoryInfo memoryInfo;
-    ScreenSize screenSize;
 
     public UseSurfaceView(MainActivity activity, LinearLayout linearLayout) {
         this.activity = activity;
         this.linearLayout = linearLayout;
         memoryInfo = new MemoryInfo(activity);
-        screenSize = new ScreenSize(activity);
     }
 
 
-    public void addSurfaceView(int drawable) {
+    public boolean addSurfaceView(int drawable) {
         View fl = getSurfaceView(drawable);
         if (fl != null) {
             fl.setVisibility(View.VISIBLE);
             fl.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ScreenSize screenSize = new ScreenSize(activity);
             linearLayout.addView(fl, screenSize.getScreenWidth(), screenSize.getScreenHeight());
+            return true;
         }
+        return false;
     }
 
     public View getSurfaceView(int drawable) {
-        if (drawable == 0){
-            Toast.makeText(activity,"未獲取圖片資源",Toast.LENGTH_SHORT).show();
+        if (drawable == 0) {
+            Toast.makeText(activity, "未獲取圖片資源", Toast.LENGTH_SHORT).show();
             return null;
         }
         System.gc();//先釋放空間
