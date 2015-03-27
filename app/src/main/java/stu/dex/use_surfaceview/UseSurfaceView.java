@@ -33,7 +33,7 @@ public class UseSurfaceView {
         View fl = getSurfaceView(drawable);
         if (fl != null) {
             fl.setVisibility(View.VISIBLE);
-            linearLayout.addView(fl, Pub.screenSize.getScreenWidth(), Pub.screenSize.getScreenHeight());
+            linearLayout.addView(fl, Pub.width, Pub.height);
             return true;
         }
         return false;
@@ -58,6 +58,10 @@ public class UseSurfaceView {
         bitmap.getPixels(Pub.colors, 0, Pub.width, 0, 0, Pub.width, Pub.height);
         bitmap.recycle();
         System.gc();
-        return activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
+        View view = activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
+        MSurfaceView mv = (MSurfaceView) view.findViewById(R.id.view);
+        MSurfaceView.MBundle bundle = mv.getBundle();
+        bundle.setIndex(activity.index + 1);
+        return view;
     }
 }

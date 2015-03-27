@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import stu.dex.tools.MLog;
 import stu.dex.tools.Pub;
 
 /**
@@ -21,7 +20,6 @@ public class MCallback implements SurfaceHolder.Callback {
     class MThread implements Runnable {
         @Override
         public void run() {
-            MLog.w(this, "callback is run!");
             Canvas canvas = mSurfaceView.getHolder().lockCanvas(null);
             try {
                 synchronized (mSurfaceView.getHolder()) {
