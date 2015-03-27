@@ -31,6 +31,7 @@ public class MSurfaceView extends SurfaceView implements View.OnTouchListener {
                 touchX = event.getX();
                 return true;
             case MotionEvent.ACTION_MOVE:
+                //加入可控制圖片，此為左右移動
                 this.setX(this.getX() + event.getX() - touchX);
                 return true;
         }
@@ -38,8 +39,7 @@ public class MSurfaceView extends SurfaceView implements View.OnTouchListener {
     }
 
     public MBundle getBundle() {
-        if (mBundle == null) mBundle = new MBundle();
-        return mBundle;
+        return mBundle == null ? mBundle = new MBundle() : mBundle;
     }
 
 

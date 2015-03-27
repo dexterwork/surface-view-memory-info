@@ -14,7 +14,7 @@ import stu.dex.tools.ScreenSize;
 import stu.dex.use_surfaceview.UseSurfaceView;
 
 /**
- * 為模擬加入大圖的記憶體監看
+ * 模擬加入大圖的記憶體監看
  */
 public class MainActivity extends ActionBarActivity {
 
@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private void init() {
         memoryInfo = new MemoryInfo(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
-        useSurfaceView = new UseSurfaceView(this, linearLayout);
+        useSurfaceView = new UseSurfaceView(this);
         Pub.screenSize = new ScreenSize(this);
     }
 
@@ -64,10 +64,10 @@ public class MainActivity extends ActionBarActivity {
                 String msg = null;
                 System.gc();
                 //插圖
-                if (useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Ran))) {
+                if (useSurfaceView.addSurfaceView(linearLayout, ResourceForTesting.getImageResource(ImgType.Ran))) {
                     msg = "image index: " + String.valueOf(++index) + "\n[free memory]: " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.";
                 } else {
-                    msg = "[NOT IMAGE!!] index: " + String.valueOf(++index);
+                    msg = "[NO IMAGE!!] index: " + String.valueOf(++index);
                 }
                 msg += "\n------------------------------------------";
                 linearLayout.addView(getNewTextView(msg));//插文字

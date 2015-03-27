@@ -96,11 +96,11 @@ public class MemoryInfo {
      *
      * @return
      */
-    public long getFreeMemoryInfoOfMB() {
+    public float getFreeMemoryInfoOfMB() {
         ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(mi);
-        return mi.availMem;
+        return converToMB(mi.availMem);
     }
 
     /**
