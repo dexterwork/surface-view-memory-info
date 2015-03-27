@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         memoryInfo = new MemoryInfo(this);
         linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
         useSurfaceView = new UseSurfaceView(this, linearLayout);
-        Pub.screenSize=new ScreenSize(this);
+        Pub.screenSize = new ScreenSize(this);
     }
 
 

@@ -5,7 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Toast;
+
+import stu.dex.tools.MLog;
 
 /**
  * Created by dexter on 2015/3/24.
@@ -26,7 +27,7 @@ public class MSurfaceView extends SurfaceView implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Toast.makeText(getContext(), "INDEX " + mBundle.getIndex(), Toast.LENGTH_SHORT).show();
+                MLog.i(this, "touch image index: " + mBundle.getIndex());
                 touchX = event.getX();
                 return true;
             case MotionEvent.ACTION_MOVE:
