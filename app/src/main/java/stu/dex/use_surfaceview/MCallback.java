@@ -29,7 +29,7 @@ public class MCallback implements SurfaceHolder.Callback {
                 }
             } finally {
                 mSurfaceView.getHolder().unlockCanvasAndPost(canvas);
-                Pub.colors = null;
+                Pub.colors = null;//canvas 畫出後，將不用的釋放
                 System.gc();
             }
         }

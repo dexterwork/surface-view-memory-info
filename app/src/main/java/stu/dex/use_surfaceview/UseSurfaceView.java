@@ -45,7 +45,7 @@ public class UseSurfaceView {
             Toast.makeText(activity, "未獲取圖片資源", Toast.LENGTH_SHORT).show();
             return null;
         }
-        System.gc();//先釋放空間
+        System.gc();
         Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), drawable);
         //TODO 檢測剩下可用記憶體
         Pub.width = bitmap.getWidth();
