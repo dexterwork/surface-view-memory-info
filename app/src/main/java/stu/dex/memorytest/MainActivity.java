@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import stu.dex.memory.MemoryInfo;
-import stu.dex.tools.MLog;
+import stu.dex.tools.GetNewTextView;
 import stu.dex.tools.Pub;
 import stu.dex.tools.ResourceForTesting;
 import stu.dex.tools.ScreenSize;
@@ -42,15 +41,6 @@ public class MainActivity extends ActionBarActivity {
 
     public int index;
 
-    private TextView getNewTextView(String msg) {
-        TextView tv = new TextView(this);
-        tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        tv.setText(msg);
-        tv.setTextSize(12);
-        tv.setTextColor(getResources().getColor(R.color.light_red));
-        return tv;
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -60,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
-                MLog.i(this, "use memory total:" + memoryInfo.getTotalMemoryOfMB() + " MB");
                 String msg = null;
                 System.gc();
                 //插圖
@@ -70,7 +59,8 @@ public class MainActivity extends ActionBarActivity {
                     msg = "[NO IMAGE!!] index: " + String.valueOf(++index);
                 }
                 msg += "\n------------------------------------------";
-                linearLayout.addView(getNewTextView(msg));//插文字
+                GetNewTextView getNewTextView = new GetNewTextView(this);
+                linearLayout.addView(getNewTextView.getNewTextView(msg));//插文字
                 System.gc();
                 break;
         }

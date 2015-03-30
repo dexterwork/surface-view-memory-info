@@ -11,8 +11,8 @@ import stu.dex.memorytest.R;
 public class ResourceForTesting {
 
     //images for testing.
-    private static String[] imgsString = new String[]{"country.png", "dd.png", "nerse2.jpg", "trumpet1.jpg"};//[0]為小張圖，[1]為大張圖
-    private static int[] imgsInt = new int[]{R.drawable.country, R.drawable.dd, R.drawable.nerse2, R.drawable.trumpet1};
+    public static String[] imgsString = new String[]{"country.png", "dd.png", "nerse2.jpg", "trumpet1.jpg"};//[0]為小張圖，[1]為大張圖
+    public static int[] imgsInt = new int[]{R.drawable.country, R.drawable.dd, R.drawable.nerse2, R.drawable.trumpet1};
 
     /**
      * return resources image assets file name.
