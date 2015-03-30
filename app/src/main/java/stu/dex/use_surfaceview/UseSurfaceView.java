@@ -3,7 +3,7 @@ package stu.dex.use_surfaceview;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import stu.dex.memory.MemoryInfo;
@@ -28,15 +28,15 @@ public class UseSurfaceView {
     /**
      * 插入圖片，成功時返回 true
      *
-     * @param linearLayout
+     * @param view
      * @param drawable
      * @return
      */
-    public boolean addSurfaceView(LinearLayout linearLayout, int drawable) {
+    public boolean addSurfaceView(RelativeLayout view, int drawable) {
         View fl = getSurfaceView(drawable);
         if (fl != null) {
             fl.setVisibility(View.VISIBLE);
-            linearLayout.addView(fl, Pub.width, Pub.height);//這裡必需要設置寬高，否則 surface view 不會顯示
+            view.addView(fl, Pub.width, Pub.height);//這裡必需要設置寬高，否則 surface view 不會顯示
             return true;
         }
         return false;

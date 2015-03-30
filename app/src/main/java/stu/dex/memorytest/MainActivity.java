@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import stu.dex.memory.MemoryInfo;
 import stu.dex.tools.GetNewTextView;
@@ -19,7 +20,8 @@ public class MainActivity extends ActionBarActivity {
 
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
-    LinearLayout linearLayout;
+    LinearLayout textLayout;
+    RelativeLayout layout;
     MemoryInfo memoryInfo;
     UseSurfaceView useSurfaceView;
 
@@ -27,13 +29,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_one_layout);
         init();
     }
 
     private void init() {
         memoryInfo = new MemoryInfo(this);
-        linearLayout = (LinearLayout) findViewById(R.id.imgs_layout);
+        layout = (RelativeLayout) findViewById(R.id.layout);
+        textLayout = (LinearLayout) findViewById(R.id.text_layout);
+
         useSurfaceView = new UseSurfaceView(this);
         Pub.screenSize = new ScreenSize(this);
     }
@@ -53,14 +57,14 @@ public class MainActivity extends ActionBarActivity {
                 String msg = null;
                 System.gc();
                 //插圖
-                if (useSurfaceView.addSurfaceView(linearLayout, ResourceForTesting.getImageResource(ImgType.Ran))) {
+                if (useSurfaceView.addSurfaceView(layout, ResourceForTesting.getImageResource(ImgType.Ran))) {
                     msg = "image index: " + String.valueOf(++index) + "\n[free memory]: " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.";
                 } else {
                     msg = "[NO IMAGE!!] index: " + String.valueOf(++index);
                 }
                 msg += "\n------------------------------------------";
                 GetNewTextView getNewTextView = new GetNewTextView(this);
-                linearLayout.addView(getNewTextView.getNewTextView(msg));//插文字
+                textLayout.addView(getNewTextView.getNewTextView(msg));//插文字
                 System.gc();
                 break;
         }

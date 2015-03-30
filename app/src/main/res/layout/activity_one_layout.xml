@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/black"
+    android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/btn"
+        android:text="Add Picture"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:onClick="onClick"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/btn"
+        android:layout_height="120dp"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:id="@+id/text_layout"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"></LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/line"
+        android:layout_above="@+id/scrollview"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_red"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_above="@+id/line"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/layout"
+        android:layout_height="match_parent"></RelativeLayout>
+
+
+</RelativeLayout>
