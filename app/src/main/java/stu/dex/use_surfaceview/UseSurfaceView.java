@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -41,9 +42,9 @@ public class UseSurfaceView {
     public boolean addSurfaceView(int drawable) {
         FrameLayout fl = getSurfaceView(drawable);
         if (fl != null) {
-            layout.addView(fl, Pub.width, Pub.height);//這裡必需要設置寬高，否則 surface view 不會顯示
-            fuckingLayout.add(fl);
-//            moveChildToFront(fl);
+            layout.addView(fl, 0, new ViewGroup.LayoutParams(Pub.width, Pub.height));//這裡必需要設置寬高，否則 surface view 不會顯示
+            fuckingLayout.add(0, fl);
+            moveChildToFront(fl);
             fl.setOnTouchListener(new TouchListener(fl));
             return true;
         }
@@ -102,7 +103,7 @@ public class UseSurfaceView {
                     frameLayout.setY(frameLayout.getY() + event.getY() - touchY);
                     return true;
                 case MotionEvent.ACTION_UP:
-                    moveChildToFront(frameLayout);
+//                    moveChildToFront(frameLayout);
                     return true;
             }
             return false;
@@ -110,7 +111,6 @@ public class UseSurfaceView {
     }
 
     private void moveChildToFront(final FrameLayout frameLayout) {
-
 
     }
 
