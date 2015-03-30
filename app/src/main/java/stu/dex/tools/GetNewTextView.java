@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import stu.dex.memorytest.MainActivity;
 import stu.dex.memorytest.R;
+import stu.dex.settings.Setting;
 
 /**
  * Created by dexter on 2015/3/30.
@@ -12,7 +13,7 @@ import stu.dex.memorytest.R;
 public class GetNewTextView {
 
 
-MainActivity activity;
+    MainActivity activity;
 
     public GetNewTextView(MainActivity activity) {
         this.activity = activity;
@@ -22,8 +23,11 @@ MainActivity activity;
         TextView tv = new TextView(activity);
         tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         tv.setText(msg);
-        tv.setTextSize(12);
+        tv.setTextSize(Setting.TEXT_SIZE);
         tv.setTextColor(activity.getResources().getColor(R.color.light_red));
         return tv;
     }
+
+
+
 }
