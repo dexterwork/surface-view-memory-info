@@ -21,7 +21,7 @@ public class MSurfaceView extends SurfaceView implements View.OnTouchListener {
         this.setOnTouchListener(this);
     }
 
-    float touchX;
+    float touchX, touchY;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -29,10 +29,12 @@ public class MSurfaceView extends SurfaceView implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 MLog.i(this, "touch image index: " + mBundle.getIndex());
                 touchX = event.getX();
+                touchY = event.getY();
                 return true;
             case MotionEvent.ACTION_MOVE:
                 //加入可控制圖片，此為左右移動
                 this.setX(this.getX() + event.getX() - touchX);
+                this.setY(this.getY() + event.getY() - touchY);
                 return true;
         }
         return false;
