@@ -3,6 +3,7 @@ package stu.dex.memorytest;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -21,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     //TODO 在 manifests 文件中加入 android:largeHeap="true"
 
     LinearLayout textLayout;
-    RelativeLayout layout;
+    FrameLayout layout;
     MemoryInfo memoryInfo;
     UseSurfaceView useSurfaceView;
 
@@ -35,10 +36,9 @@ public class MainActivity extends ActionBarActivity {
 
     private void init() {
         memoryInfo = new MemoryInfo(this);
-        layout = (RelativeLayout) findViewById(R.id.layout);
+        layout = (FrameLayout) findViewById(R.id.layout);
         textLayout = (LinearLayout) findViewById(R.id.text_layout);
-
-        useSurfaceView = new UseSurfaceView(this);
+        useSurfaceView = new UseSurfaceView(this, layout);
         Pub.screenSize = new ScreenSize(this);
     }
 
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
                 String msg = null;
                 System.gc();
                 //插圖
-                if (useSurfaceView.addSurfaceView(layout, ResourceForTesting.getImageResource(ImgType.Ran))) {
+                if (useSurfaceView.addSurfaceView(ResourceForTesting.getImageResource(ImgType.Ran))) {
                     msg = "image index: " + String.valueOf(++index) + "\n[free memory]: " + memoryInfo.getFreeMemoryOfMbWithTotal() + " MB.";
                 } else {
                     msg = "[NO IMAGE!!] index: " + String.valueOf(++index);

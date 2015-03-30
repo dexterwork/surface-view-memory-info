@@ -2,9 +2,12 @@ package stu.dex.use_surfaceview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import stu.dex.memory.MemoryInfo;
 import stu.dex.memorytest.MainActivity;
@@ -18,31 +21,36 @@ import stu.dex.tools.Pub;
 public class UseSurfaceView {
     MainActivity activity;
     MemoryInfo memoryInfo;
+    FrameLayout layout;
 
+    ArrayList<FrameLayout> fuckingLayout;
 
-    public UseSurfaceView(MainActivity activity) {
+    public UseSurfaceView(MainActivity activity, FrameLayout relativeLayout) {
         this.activity = activity;
+        this.layout = relativeLayout;
         memoryInfo = new MemoryInfo(activity);
+        fuckingLayout = new ArrayList<FrameLayout>();
     }
 
     /**
      * 插入圖片，成功時返回 true
      *
-     * @param view
      * @param drawable
      * @return
      */
-    public boolean addSurfaceView(RelativeLayout view, int drawable) {
-        View fl = getSurfaceView(drawable);
+    public boolean addSurfaceView(int drawable) {
+        FrameLayout fl = getSurfaceView(drawable);
         if (fl != null) {
-            fl.setVisibility(View.VISIBLE);
-            view.addView(fl, Pub.width, Pub.height);//這裡必需要設置寬高，否則 surface view 不會顯示
+            layout.addView(fl, Pub.width, Pub.height);//這裡必需要設置寬高，否則 surface view 不會顯示
+            fuckingLayout.add(fl);
+//            moveChildToFront(fl);
+            fl.setOnTouchListener(new TouchListener(fl));
             return true;
         }
         return false;
     }
 
-    private View getSurfaceView(int drawable) {
+    private FrameLayout getSurfaceView(int drawable) {
         if (drawable == 0) {
             Toast.makeText(activity, "未獲取圖片資源", Toast.LENGTH_SHORT).show();
             return null;
@@ -62,10 +70,49 @@ public class UseSurfaceView {
         System.gc();
 
         //依需要塞入資料包
-        View view = activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
+        FrameLayout view = (FrameLayout) activity.getLayoutInflater().inflate(R.layout.msurfaceview, null);
         MSurfaceView mv = (MSurfaceView) view.findViewById(R.id.view);
         MSurfaceView.MBundle bundle = mv.getBundle();
         bundle.setIndex(activity.index + 1);
         return view;
     }
+
+    private class TouchListener implements View.OnTouchListener {
+        private FrameLayout frameLayout;
+        private MSurfaceView.MBundle mBundle;
+        private float touchX, touchY;
+
+        private TouchListener(FrameLayout frameLayout) {
+            this.frameLayout = frameLayout;
+            mBundle = ((MSurfaceView) frameLayout.getChildAt(0)).getBundle();
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+//                    MLog.i(this, "touch index:" + mBundle.getIndex());
+
+                    touchX = event.getX();
+                    touchY = event.getY();
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    //加入可控制圖片
+                    frameLayout.setX(frameLayout.getX() + event.getX() - touchX);
+                    frameLayout.setY(frameLayout.getY() + event.getY() - touchY);
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    moveChildToFront(frameLayout);
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    private void moveChildToFront(final FrameLayout frameLayout) {
+
+
+    }
+
+
 }
