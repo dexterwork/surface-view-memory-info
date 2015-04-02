@@ -40,12 +40,13 @@ public class UseSurfaceView {
      * @return
      */
     public boolean addSurfaceView(int drawable) {
-        FrameLayout fl = getSurfaceView(drawable);
-        if (fl != null) {
-            layout.addView(fl, 0, new ViewGroup.LayoutParams(Pub.width, Pub.height));//這裡必需要設置寬高，否則 surface view 不會顯示
-            fuckingLayout.add(0, fl);
-            moveChildToFront(fl);
-            fl.setOnTouchListener(new TouchListener(fl));
+        FrameLayout frameLayout = getSurfaceView(drawable);
+        if (frameLayout != null) {
+            layout.addView(frameLayout, 0, new ViewGroup.LayoutParams(Pub.width, Pub.height));//這裡必需要設置寬高，否則 surface view 不會顯示
+            fuckingLayout.add(0, frameLayout);
+
+            moveChildToFront(frameLayout);
+            frameLayout.setOnTouchListener(new TouchListener(frameLayout));
             return true;
         }
         return false;
@@ -111,7 +112,6 @@ public class UseSurfaceView {
     }
 
     private void moveChildToFront(final FrameLayout frameLayout) {
-
     }
 
 
